@@ -1,0 +1,27 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        <h2 dir="auto">{{ _('Become a mufti') }}</h2>
+        <h5 class="text-danger">{{ _('WARNING: Any false accusations will lead to permanent ban of the user') }}</h5>
+        <form class="mb-5" method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.proof,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {% if form.detail.errors %}
+                {{ form.detail(class="form-control form-control-lg is-invalid",rows=4,dir="auto", style="font-size: 30pt") }}
+                <div class="invalid-feedback">
+                    {% for error in form.detail.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.detail(class="form-control form-control-lg",rows=4,dir="auto", style="font-size: 30pt") }}
+            {% endif %}
+            {{ wtf.form_field(form.submit,class="btn btn-primary mt-5 mb-5") }}
+        </form>
+    </div>
+</div>
+{% endblock content %}

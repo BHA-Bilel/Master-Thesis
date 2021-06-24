@@ -1,0 +1,17 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        <h2 dir="auto">{{ _('Upload Corpus') }}</h2>
+        <form class="mb-5" method="POST" action="" enctype="multipart/form-data">
+            {{ uploadCorpForm.hidden_tag() }}
+            {{ wtf.form_field(uploadCorpForm.fatwa_class,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {{ wtf.form_field(uploadCorpForm.file,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {{ uploadCorpForm.upload_corp(class="btn btn-primary") }}
+        </form>
+    </div>
+</div>
+{% endblock content %}

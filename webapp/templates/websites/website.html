@@ -1,0 +1,72 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-3">
+    <div class="content-section">
+        <h1>{{ _('Website Profile') }}</h1>
+        <div class="article-metadata">
+            <a class="ml-2" href="{{ website.domain }}">{{ website.domain }}</a>
+        </div>
+        {% if current_user.is_authenticated and session['role'] in ['Admin','Mufti'] %}
+            <div>
+                {% if current_user.ver_em %}
+                     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('websites.edit_website',id=website.id) }}">{{ _('Update') }}</a>
+                    {% if session['role']=='Admin' %}
+                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">{{ _('Delete') }}</button>
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">{{ _('Delete website ?') }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                    <form action="{{ url_for('websites.delete_website',id=website.id) }}" method="post">
+                                        <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="media-body">
+            <a class="ml-2">{{ website.description }}</a>
+        </div>
+        {% if taken_fatwas %}
+        <h1 class="ml-4 mt-3 mb-3">{{ _('Website fatwas, total : %(total)s',total=total) }}</h1>
+            {% for fatwa in taken_fatwas.items %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <a class="ml-2" href="{{ url_for('vol_fatwas.vol_fatwa', id=fatwa.fatwa_id) }}">{{ _('Fatwa') }}</a>
+                            <a class="ml-2" href="{{ url_for('users.profile', username=usernames[fatwa.user_id]) }}">{{ _('User') }}</a>
+                        </div>
+                        <h2>
+                            <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                        </h2>
+                        <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+            {% for page_num in taken_fatwas.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if taken_fatwas.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('websites.website', id=website.id, page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('websites.website', id=website.id, page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% else %}
+
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="font-size: 20pt">{{ legend }}</legend>
+        </fieldset>
+        {% if form.domain.errors %}
+            {{ form.domain(class="form-control form-control-lg is-invalid mt-4 mb-4",rows=4,dir="auto", style="font-size: 22pt") }}
+            <div class="invalid-feedback">
+                {% for error in form.domain.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.domain(class="form-control form-control-lg mt-4 mb-4",rows=4,dir="auto", style="font-size:22pt") }}
+        {% endif %}
+        {% if form.description.errors %}
+            {{ form.description(class="form-control form-control-lg is-invalid",rows=4,dir="auto", style="font-size: 30pt") }}
+            <div class="invalid-feedback">
+                {% for error in form.description.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.description(class="form-control form-control-lg",rows=4,dir="auto", style="font-size: 30pt") }}
+        {% endif %}
+        {{ wtf.form_field(form.submit,class="btn btn-primary mt-4 mb-4") }}
+    </form>
+</div>
+{% endblock content %}

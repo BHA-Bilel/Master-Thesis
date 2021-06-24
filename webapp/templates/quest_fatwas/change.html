@@ -1,0 +1,27 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="font-size: 20pt">{{ legend }}</legend>
+        </fieldset>
+        {{ wtf.form_field(form.fatwa_class,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+        {% if form.question.errors %}
+            {{ form.question(class="form-control form-control-lg is-invalid mt-4 mb-4",rows=4,dir="auto", style="font-size: 22pt") }}
+            <div class="invalid-feedback">
+                {% for error in form.question.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.question(class="form-control form-control-lg mt-4 mb-4",rows=4,dir="auto", style="font-size:22pt") }}
+        {% endif %}
+        {{ form.anonym(class="form-check-input", style="font-size: 22pt") }}
+        {{ form.email_notif(class="form-check-input", style="font-size: 22pt") }}
+        {{ wtf.form_field(form.submit,class="btn btn-primary mt-4 mb-4") }}
+    </form>
+</div>
+{% endblock content %}

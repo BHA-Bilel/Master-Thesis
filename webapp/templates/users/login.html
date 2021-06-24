@@ -1,0 +1,57 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <form class="mb-3" method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="font-size: 20pt">{{ _('Login credentials') }}</legend>
+        </fieldset>
+        <div class="form-group">
+                {{ form.username.label(class="form-control-label") }}
+                {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        <div class="custom-control custom-checkbox my-1 mr-sm-2">
+            <input type="checkbox" name="remember" value="remember" class="custom-control-input" id="remember">
+            <label class="custom-control-label" for="remember">{{ _('Remember Me') }}</label>
+        </div>
+
+        {{ wtf.form_field(form.submit,class="btn btn-primary") }}
+        <div>
+            <small class="text-muted ml-2">
+                    <a href="{{ url_for('users.reset_request') }}">{{ _('Forgot Password?') }}</a>
+            </small>
+        </div>
+
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            {{ _('Need An Account?') }}<a class="ml-2" href="{{ url_for('users.register') }}">{{ _('Sign Up Now (user only)') }}</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}

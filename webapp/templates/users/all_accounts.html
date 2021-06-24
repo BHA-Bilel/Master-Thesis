@@ -1,0 +1,141 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if fatwas %}
+            {% if route=='all_accounts' %}
+                <div class="container"><h1>{{ _('%(name)s accounts, total : %(total)s',name=translated_name,total=total) }}</h1></div>
+            {% elif route=='banned_accounts' %}
+                 <div class="container"><h1>{{ _('Banned users, total : %(total)s',total=total) }}</h1></div>
+            {% elif route=='banned_quest_fatwa_accounts' %}
+                <div class="container"><h1>{{ _("Users restricted from asking questions, total : %(total)s",total=total) }}</h1></div>
+            {% elif route=='banned_vol_fatwas_accounts' %}
+                <div class="container"><h1>{{ _("Users restricted from volunteering fatwas, total : %(total)s",total=total) }}</h1></div>
+            {% endif %}
+            {% for fatwa in fatwas.items %}
+                <div class="media-body">
+                    <div class="article-metadata">
+                        {% if fatwa.mufti_id %}
+                            <a class="ml-2">{{ _('answered by mufti:') }}</a>
+                            <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.mufti_id] }}">
+                                {{ usernames[fatwa.mufti_id]) }}
+                            </a>
+                            <a class="ml-2">{{ _('on: %(date)s',date=fatwa.answered_on) }}</a>
+                        {% endif %}
+                        {% if not quest_fatwa.anonym or current_user.is_authenticated and session['role'] == 'Admin' %}
+                            <a class="ml-2">{{ _('asked by user:') }}</a>
+                            <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.user_id] }}">
+                                {{ usernames[fatwa.user_id]) }}
+                            </a>
+                            <a class="ml-2">{{ _('on: %(date)s',date=fatwa.added_on) }}</a>
+                        {% else %}
+                            <a class="ml-2">{{ _('asked by a user on: %(date)s',date=fatwa.added_on) }}</a>
+                        {% endif %}
+                    </div>
+                    {% if current_user.is_authenticated and current_user.ver_em and session['role']=='Admin' %}
+                        <div>
+                            {% if fatwa.mufti_id %}
+                                {% set cond=session['role']=='Mufti' and fatwa.mufti_id == current_user.id %}
+                                {% if cond %}
+                                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.edit_quest_fatwa',id=fatwa.id) }}">{{ _('Update') }}</a>
+                                {% endif %}
+                                {% if cond or session['role']=='Admin' %}
+                                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal1">{{ _('Delete') }}</button>
+                                    <div class="modal fade" id="deleteModal1" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel1" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-conetent">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel1">{{ _('Delete fatwa ?') }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                    <form action="{{ url_for('users.delete_quest_fatwa',id=fatwa.id) }}" method="post">
+                                                        <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% elif session['role']=='User' and fatwa.user_id == current_user.id %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.edit_quest_fatwa',id=fatwa.id) }}">{{ _('Update') }}</a>
+                                <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal2">{{ _('Delete') }}</button>
+                                <div class="modal fade" id="deleteModal2" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel2" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-conetent">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel2">{{ _('Delete fatwa ?') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                <form action="{{ url_for('users.delete_quest_fatwa',id=fatwa.id) }}" method="post">
+                                                    <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif session['role']=='Mufti' %}
+                             <div>
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.answer_quest_fatwa',id=fatwa.id) }}">{{ _('Answer') }}</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+<!--                    todo show summary -->
+                    <h2>
+                        <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                    </h2>
+                    {% if fatwa.mufti_id %}
+                        <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% for page_num in pagination.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if pagination.page == page_num %}
+                        {% if route=='all_accounts' %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('users.all_accounts', name=name, page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='banned_accounts' %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('users.banned_accounts', page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='banned_quest_fatwa_accounts' %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('users.banned_quest_fatwa_accounts', page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='banned_vol_fatwas_accounts' %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('users.banned_vol_fatwas_accounts', page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        {% if route=='all_accounts' %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.all_accounts', name=name, page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='banned_accounts' %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.banned_accounts', page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='banned_quest_fatwa_accounts' %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.banned_quest_fatwa_accounts', page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='banned_vol_fatwas_accounts' %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.banned_vol_fatwas_accounts', page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if route=='all_accounts' %}
+                <div class="container"><h1>{{ _('There are no users in the website for the moment, be the first!') }}</h1></div>
+            {% elif route=='banned_accounts' %}
+                 <div class="container"><h1>{{ _('There are no banned accounts for the moment.') }}</h1></div>
+            {% elif route=='banned_quest_fatwa_accounts' %}
+                <div class="container"><h1>{{ _('There are no restricted users from asking questions for the moment.') }}</h1></div>
+            {% elif route=='banned_vol_fatwas_accounts' %}
+                <div class="container"><h1>{{ _('There are no restricted users from volunteering fatwas for the moment.') }}</h1></div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

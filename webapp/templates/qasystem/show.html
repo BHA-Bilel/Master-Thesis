@@ -1,0 +1,28 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        <h4 class="form-control form-control-lg" dir="auto">{{ _('Question: %(fatwa)s',fatwa=fatwa) }} </h4>
+        {% for data in result %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2">{{ data.model }}</a>
+                    <small class="text-muted">{{ data.similarity }}</small>
+                    <a class="mr-2">{{ muftis.get(data.mufti_id)[0] }}</a>
+                    <a class="ml-2" href="{{ url_for('users.mufti_profile',username=muftis.get(data.mufti_id)[1]) }}">
+                                {{ muftis.get(data.mufti_id)[1] }}
+                    </a>
+                    <a class="ml-2" href="{{ url_for('fatwas.fatwa',fatwa_class=fatwa_class, id=data.fatwa_id) }}">{{ _('Fatwa') }}</a>
+                </div>
+                <h2>
+                    <a class="article-title" dir="rtl">{{ data.question }}</a>
+                </h2>
+                <p class="article-content" dir="rtl">{{ data.answer }}</p>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

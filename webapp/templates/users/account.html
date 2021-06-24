@@ -1,0 +1,82 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<!--    <div class="container"><h1>{{ current_user.username }}</h1></div>-->
+<div class="content-section">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="account-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+        </div>
+    </div>
+    <div class="container mb-5">
+        <form class="mb-3" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4" style="font-size: 20pt">{{ _('Update account') }}</legend>
+                <div class="form-group">
+                    {{ form.fname.label(class="form-control-label") }}
+                    {% if form.fname.errors %}
+                    {{ form.fname(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.fname.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.fname(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.lname.label(class="form-control-label") }}
+                    {% if form.lname.errors %}
+                    {{ form.lname(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.lname.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.lname(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            {{ form.submit(class="btn btn-primary") }}
+                    <div>
+            <small class="text-muted ml-2">
+                    <a href="{{ url_for('users.reset_request') }}">{{ _('Change Password') }}</a>
+            </small>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

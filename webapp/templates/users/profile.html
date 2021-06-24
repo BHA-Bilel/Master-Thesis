@@ -1,0 +1,102 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-3">
+    <div class="content-section">
+        <h1>{{ _('Profile Page') }}</h1>
+        <div class="article-metadata">
+            <a class="ml-2">{{ username }}</a>
+            <a class="mr-2">{{ name }}</a>
+        </div>
+<!--TODO-->
+if mufti
+['fatwas']
+['answered_questions']
+    # show a summary of answered questions, volunteered vol_fatwas
+    # (anyone): links for mufti_fatwas, mufti_quest_fatwas
+    # (admins): ver_em, pref_lang, link to ban/un-ban completely, deleted_fatwas
+if user
+# (anyone): links for answered_user_quest_fatwas, user_vol_fatwas
+# (muftis and admins): asked_user_quest_fatwas,
+['asked_questions']
+['answered_questions']
+['volunteered_vol_fatwas']
+['deleted_questions']
+['deleted_vol_fatwas']
+if not mufti
+        user_deleted_quest, user_deleted_vol
+        (muftis) links to report-unreport user
+        (admins) links to restrict/un-restrict users from asking/volunteering
+# (admins): ver_em, pref_lang, created_on, last_log, link to ban/un-ban
+<!--TODO-->
+
+        <h1 class="ml-4 mt-3 mb-3">{{ _('Mufti fatwas, total : %(total)s',total=total) }}</h1>
+            {% for fatwa_pagination in fatwas %}
+                {% if fatwa_pagination %}
+                    {% for fatwa in fatwa_pagination.items %}
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2">{{ name }}</a>
+                                    <a class="ml-2" href="{{ url_for('fatwas.fatwa', id=fatwa.id) }}">{{ _('Fatwa') }}</a>
+                                </div>
+                                <h2>
+                                    <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                                </h2>
+                                <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% for page_num in max_pagination.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if max_pagination.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('users.profile', username=username, page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('users.profile', username=username, page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% elif questions %}
+        <h1 class="ml-4 mt-3 mb-3">{{ _('User questions, active : %(active_questions)s, answered : %(answered_questions)s',active_questions=active_questions,answered_questions=answered_questions) }}</h1>
+            {% for question_pagination in questions %}
+                {% if question_pagination %}
+                    {% for question in question_pagination.items %}
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2">{{ name }}</a>
+                                    <a class="ml-2" href="{{ url_for('users.question', id=question.id) }}">{{ _('Question') }}</a>
+                                </div>
+                                <h2>
+                                    <a class="article-title" dir="rtl">{{ question.question }}</a>
+                                </h2>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% for page_num in max_pagination.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if max_pagination.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('users.profile', username=username, page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('users.profile', username=username, page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if total_questions %}
+            <h1 class="ml-4 mt-3 mb-3">{{ _('User questions, total : %(total_questions)s',total_questions=total_questions) }}</h1>
+            {% else %}
+            <h1 class="ml-4 mt-3 mb-3">{{ _('This mufti has no fatwas at the moment') }}</h1>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if fatwas %}
+            {% if route=='all_vol_fatwas' %}
+                <h1 class="ml-4 mt-3 mb-3">{{ _('%(name)s users voluntary fatwas, total : %(total)s',name=translated_name,total=total) }}</h1>
+            {% elif route=='user_vol_fatwas' %}
+                {% if current_user.is_authenticated and session['role']=='User' and current_user.username == username %}
+                    <h1 class="ml-4 mt-3 mb-3">{{ _('Your voluntary fatwas, total : %(total)s',total=total) }}</h1>
+                {% else %}
+                    <h1 class="ml-4 mt-3 mb-3">{{ _('User voluntary fatwas, total : %(total)s',total=total) }}</h1>
+                {% endif %}
+            {% endif %}
+            {% for fatwa in fatwas.items %}
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="ml-2">{{ _('volunteered by user:') }}</a>
+                        {% if route=='user_vol_fatwas' %}
+                            <a class="ml-2" href="{{ url_for('users.profile',username=username }}">
+                                            {{ username }}
+                            </a>
+                        {% elif route=='all_vol_fatwas' %}
+                            <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.user_id] }}">
+                                            {{ usernames[fatwa.user_id] }}
+                            </a>
+                        {% endif %}
+                        <a class="ml-2">{{ _('on: %(date)s',date=fatwa.added_on) }}</a>
+                        <a class="ml-2">{{ _('original fatwa:') }}</a>
+                        <a class="ml-2" href="{{ fatwa.link }}">{{ _('original fatwa') }}</a>
+                        <a class="ml-2" href="{{ url_for('websites.website',id=fatwa.website_id) }}">
+                                        {{ websites[fatwa.website_id] }}
+                        </a>
+                    </div>
+                    {% if current_user.is_authenticated and current_user.ver_em %}
+                        <div>
+                            {% set cond=session['role']=='User' and current_user.id == fatwa.user_id %}
+                            {% if cond %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('vol_fatwas.edit_vol_fatwa',id=question.id) }}">{{ _('Update') }}</a>
+                            {% endif %}
+                            {% if cond or session['role']=='Admin' or session['role']=='Mufti' %}
+                                <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal1">{{ _('Delete') }}</button>
+                                <div class="modal fade" id="deleteModal1" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-conetent">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel1">{{ _('Delete fatwa ?') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                <form action="{{ url_for('vol_fatwas.delete_vol_fatwa',id=vol_fatwa.id) }}" method="post">
+                                                    <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    <h2>
+                        <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                    </h2>
+                    <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+                </div>
+            {% endfor %}
+            {% for page_num in fatwas.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                {% if usernames %}
+                    {% if fatwas.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('vol_fatwas.all_vol_fatwas', name=name, page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('vol_fatwas.all_vol_fatwas', name=name, page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    {% if fatwas.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('vol_fatwas.user_vol_fatwas', name=name, page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('vol_fatwas.user_vol_fatwas', name=name, page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if name == 'all' %}{% set in_topic=_(' yet') %}{% else %}{% set in_topic=_(' in this topic yet') %}{% endif %}
+            {% if route=='all_vol_fatwas' %}
+                <div class="container"><h1>{{ _('No fatwas were volunteered %(topic)s',topic=in_topic) }}</h1></div>
+            {% elif route=='user_vol_fatwas' %}
+                {% if current_user.is_authenticated and session['role']=='User' and current_user.username == username %}
+                    <div class="container"><h1>{{ _("You didn't volunteer any fatwas %(topic)s",topic=in_topic) }}</h1></div>
+                {% else %}
+                    <div class="container"><h1>{{ _('This user have no voluntary fatwas %(topic)s',topic=in_topic) }}</h1></div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,16 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" style="font-size: 20pt">{{ _('Automatic Fatwa Answering') }}</legend>
+        </fieldset>
+        <h4 class="form-control form-control-lg" dir="auto" style="font-size: 30pt"> {{ fatwa }} </h4>
+        {{ wtf.form_field(form.fatwa_class,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+        {{ wtf.form_field(form.submit,class="btn btn-primary") }}
+    </form>
+</div>
+{% endblock content %}

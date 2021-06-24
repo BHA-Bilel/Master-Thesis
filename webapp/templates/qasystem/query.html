@@ -1,0 +1,21 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {% if form.fatwa.errors %}
+            {{ form.fatwa(class="form-control form-control-lg is-invalid",rows=4,dir="auto", style="font-size: 30pt") }}
+            <div class="invalid-feedback">
+                {% for error in form.fatwa.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form.fatwa(class="form-control form-control-lg",rows=4,dir="auto", style="font-size: 30pt") }}
+        {% endif %}
+        {{ wtf.form_field(form.submit,class="btn btn-primary mt-5 mb-5") }}
+    </form>
+</div>
+{% endblock content %}

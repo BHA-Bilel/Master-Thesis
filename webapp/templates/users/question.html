@@ -1,0 +1,52 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2">{{ name }}</a><a class="ml-2" href="{{ url_for('users.user_profile',username =username) }}">{{ username
+                }}</a>
+                {% if session['account_type']=='User' and current_user.id == question.user_id %}
+                <div>
+                    {% if current_user.ver_em %}
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.edit_question',fatwa_class=fatwa_class,id=question.id) }}">{{ _('Update') }}</a>
+                        <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">{{ _('Delete') }}</button>
+                    {% else %}
+                        <a class="text-warning mr-2">{{ _('You need to verify your new email in order to update or delete this question!') }}</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% if session['account_type']=='Mufti' %}
+                 <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.answer_question',fatwa_class=fatwa_class,id=question.id) }}">{{ _('Answer') }}</a>
+                </div>
+                {% endif %}
+            </div>
+            <h2>
+                <a class="article-title" dir="rtl">{{ question.question }}</a>
+            </h2>
+        </div>
+    </article>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-conetent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">{{ _('Delete question ?') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                <form action="{{ url_for('users.delete_question',fatwa_class=fatwa_class,id=question.id) }}" method="post">
+                    <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

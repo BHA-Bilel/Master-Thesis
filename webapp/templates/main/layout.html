@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+{% extends "bootstrap/base.html" %}
+<html>
+{% block head %}
+{% block title %}
+    {% if title %}
+        {{ title }}
+    {% else %}
+        Fatwa QAS
+    {% endif %}
+{% endblock title %}
+<!-- Required meta tags -->
+{% block metas %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+{% endblock metas %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand mr-4" href="{{ url_for('main.home') }}">{{ _('Home') }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="url_for('fatwa_class.fatwa_class')" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ _('Fatwa classes') }}</a>
+                        <ul class="dropdown-menu">
+                        {% for fatwa_class in all_fatwa_classes() %}
+                            <li><a class="dropdown-item" href="{{ url_for('fatwa_class.fatwa_class',fatwa_class=fatwa_class.name) }}">{{ translate(fatwa_class=fatwa_class.name) }}</a></li>
+                        {% endfor %}
+                        </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="url_for('fatwas.all_fatwas')" id="navbarDropdown6" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ _('Muftis Fatwas') }}</a>
+                    <ul class="dropdown-menu">
+                        {% for fatwa_class in all_fatwa_classes() %}
+                            <li><a class="dropdown-item" href="{{ url_for('fatwas.all_fatwas',fatwa_class=fatwa_class.name) }}">{{ translate(fatwa_class=fatwa_class.name) }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="url_for('quest_fatwa.answered_quest_fatwas')" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ _('Answered Questions') }}</a>
+                    <ul class="dropdown-menu">
+                        {% for fatwa_class in all_fatwa_classes() %}
+                            <li><a class="dropdown-item" href="{{ url_for('quest_fatwa.answered_quest_fatwas',fatwa_class=fatwa_class.name) }}">{{ translate(fatwa_class=fatwa_class.name) }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="url_for('vol_fatwas.validated_vol_fatwas')" id="navbarDropdown5" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ _('Volunteered Fatwas') }}</a>
+                    <ul class="dropdown-menu">
+                        {% for fatwa_class in all_fatwa_classes() %}
+                            <li><a class="dropdown-item" href="{{ url_for('vol_fatwas.validated_vol_fatwas',fatwa_class=fatwa_class.name) }}">{{ translate(fatwa_class=fatwa_class.name) }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                {% if current_user.is_authenticated and (session['role']=='Admin' or session['role']=='Mufti' %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown7" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ _('Contribution') }}</a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="url_for('quest_fatwa.asked_quest_fatwas')">_('Asked Questions')</a>
+                            <ul class="dropdown-menu">
+                                {% for fatwa_class in all_fatwa_classes() %}
+                                    <li><a class="dropdown-item"  href="{{ url_for('quest_fatwa.asked_quest_fatwas', fatwa_class=fatwa_class.name) }}">{{ translate(fatwa_class=fatwa_class.name) }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="url_for('vol_fatwas.unverified_vol_fatwas')">{{ _('Volunteered Fatwas') }}</a>
+                            <ul class="dropdown-menu">
+                                {% for fatwa_class in all_fatwa_classes() %}
+                                <li><a class="dropdown-item" href="{{ url_for('vol_fatwas.unverified_vol_fatwas', fatwa_class=fatwa_class.name) }}">{{ translate(fatwa_class=fatwa_class.name) }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                <a class="nav-item nav-link" href="{{ url_for('qasystem.query') }}">{{ _('Automatic Fatwa Answering') }}</a>
+                <a class="nav-item nav-link" href="{{ url_for('fatwas.websites') }}">{{ _('Websites') }}</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.about') }}">{{ _('About') }}</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    {% if session['role']=='Admin' and current_user.ver_em %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">{{ _('Administration') }}</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url_for('administration.register') }}">{{ _('Registration') }}</a></li>
+                                <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item" href="{{ url_for('administration.interval') }}">{{ _('General') }}</a></li>
+                            </ul>
+                        </li>
+                        <a class="nav-item nav-link" href="{{ url_for('websites.add_website') }}">{{ _('New Website') }}</a>
+                    {% elif session['role']=='Mufti' and current_user.ver_em %}
+                        <a class="nav-item nav-link" href="{{ url_for('fatwas.new_fatwa') }}">{{ _('New Fatwa') }}</a>
+                        <a class="nav-item nav-link" href="{{ url_for('websites.add_website') }}">{{ _('New Website') }}</a>
+                    {% elif session['role']=='User' and current_user.ver_em %}
+                        <a class="nav-item nav-link" href="{{ url_for('fatwas.new_vol_fatwa') }}">{{ _('New Voluntary Fatwa') }}</a>
+                        <a class="nav-item nav-link" href="{{ url_for('users.add_question') }}">{{ _('New Question') }}</a>
+                    {% endif %}
+                    <a class="nav-item nav-link" href="{{ url_for('users.account') }}">{{ _('Account') }}</a>
+                    <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">{{ _('Logout') }}</a>
+                {% else %}
+                    <a class="nav-item nav-link" href="{{ url_for('users.register') }}">{{ _('Register') }}</a>
+                    <a class="nav-item nav-link" href="{{ url_for('users.login') }}">{{ _('Login') }}</a>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ _('Languages') }}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ url_for('main.home', changed=True, lang_code='ar') }}">{{ _('Arabic') }}</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('main.home', changed=True, lang_code='en') }}">{{ _('English') }}</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url_for('main.home', changed=True, lang_code='fr') }}">{{ _('French') }}</a>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </div>
+</nav>
+{% endblock nav %}
+{% endblock head %}
+
+{% block content %}
+<main role="main" class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% if current_user.is_authenticated and not current_user.ver_em %}
+        <div class="alert alert-warning">
+            {{ _('You need to verify your email in order to benefit of you privileges, ') }}
+            <a href={url_for("users.confirm_request")} class="alert-link">' + _(' Resend confirmation link') + '</a>
+        </div>
+    {% endif %}
+    <!--        <div class="col-md-4">-->
+    <!--          <div class="content-section">-->
+    <!--            <h3>Our Sidebar</h3>-->
+    <!--            <p class='text-muted'>You can put any information here you'd like.-->
+    <!--              <ul class="list-group">-->
+    <!--                <li class="list-group-item list-group-item-light">Latest Posts</li>-->
+    <!--                <li class="list-group-item list-group-item-light">Announcements</li>-->
+    <!--                <li class="list-group-item list-group-item-light">Calendars</li>-->
+    <!--                <li class="list-group-item list-group-item-light">etc</li>-->
+    <!--              </ul>-->
+    <!--            </p>-->
+    <!--          </div>-->
+    <!--        </div>-->
+</main>
+{% block scrpit %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock script %}
+{% endblock body %}
+</html>

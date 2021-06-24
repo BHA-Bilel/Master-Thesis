@@ -1,0 +1,43 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if fatwas %}
+            <h1 class="ml-4 mt-3 mb-3">{{ _('All fatwas, total : %(total)s',total=total) }}</h1>
+            {% for fatwa_pagination in fatwas %}
+                {% if fatwa_pagination %}
+                    {% for fatwa in fatwa_pagination.items %}
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2">{{ muftis.get(fatwa.mufti_id)[0] }}</a>
+                                    <a class="ml-2" href="{{ url_for('users.profile',username=muftis.get(fatwa.mufti_id)[1]) }}">
+                                        {{ muftis.get(fatwa.mufti_id)[1] }}
+                                    </a>
+                                    <a class="ml-2" href="{{ url_for('fatwas.fatwa', id=fatwa.id) }}">{{ _('Fatwa') }}</a>
+                                </div>
+                                <h2>
+                                    <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                                </h2>
+                                <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+                            </div>
+                        </article>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            {% for page_num in max_pagination.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if max_pagination.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

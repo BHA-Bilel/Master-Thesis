@@ -1,0 +1,10 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        <h1>{{ _('Oops. Page Not Found (404)') }}</h1>
+        <p>{{ _('That page does not exist. Please try a different url!') }}</p>
+    </div>
+</div>
+{% endblock content %}

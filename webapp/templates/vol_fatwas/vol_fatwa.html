@@ -1,0 +1,56 @@
+{% extends "main/layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="ml-2">{{ _('volunteered by user:') }}</a>
+                <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.user_id] }}">
+                                {{ username }}
+                </a>
+                <a class="ml-2">{{ _('on: %(date)s',date=fatwa.added_on) }}</a>
+                <a class="ml-2">{{ _('original fatwa:') }}</a>
+                <a class="ml-2" href="{{ fatwa.link }}">{{ _('original fatwa') }}</a>
+                <a class="ml-2" href="{{ url_for('websites.website',id=fatwa.website_id) }}">
+                                {{ website }}
+                </a>
+            </div>
+            {% if current_user.is_authenticated and current_user.ver_em %}
+            <div>
+                {% set cond=session['role']=='User' and current_user.id == fatwa.user_id %}
+                {% if cond %}
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('vol_fatwas.edit_vol_fatwa',id=question.id) }}">{{ _('Update') }}</a>
+                {% endif %}
+                {% if cond or session['role']=='Admin' or session['role']=='Mufti' %}
+                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal1">{{ _('Delete') }}</button>
+                    <div class="modal fade" id="deleteModal1" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-conetent">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel1">{{ _('Delete fatwa ?') }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                    <form action="{{ url_for('vol_fatwas.delete_vol_fatwa',id=vol_fatwa.id) }}" method="post">
+                                        <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            <h2>
+                <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+            </h2>
+            <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+        </div>
+    </article>
+</div>
+{% endblock content %}

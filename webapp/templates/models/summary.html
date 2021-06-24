@@ -1,0 +1,75 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if sim_dicts %}
+        <h1 class="ml-4 mt-3 mb-3">{{ _('Similarity models training history') }}</h1>
+        {% for sim_dict in sim_dicts %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    sim_dict['date']
+                    sim_dict['data_number']
+                    sim_dict['fatwa_class']
+                    <a class="mr-2">{{ muftis.get(fatwa.mufti_id)[0] }}</a>
+                    <a class="ml-2" href="{{ url_for('users.profile',username=muftis.get(fatwa.mufti_id)[1]) }}">
+                        {{ muftis.get(fatwa.mufti_id)[1] }}
+                    </a>
+                    <a class="ml-2" href="{{ url_for('fatwas.fatwa', id=fatwa.id) }}">{{ _('Fatwa') }}</a>
+                </div>
+                <div>
+                    <p class="article-content">
+                        {{ _('%(fatwas)s fatwas from fatwas table',fatwas=sim_dict['fatwas']) }}
+                    </p>
+                    <p class="article-content">
+                        {{ _('%(vol_fatwas)s fatwas from vol fatwas table',vol_fatwas=sim_dict['vol_fatwas']) }}
+                    </p>
+                    <p class="article-content">
+                        {{ _('%(quest_fatwas)s fatwas from quest fatwas',quest_fatwas=sim_dict['quest_fatwas']) }}
+                    </p>
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+        {% else %}
+        <div class="container"><h1>{{ _('The similarity models have not been trained yet.') }}</h1></div>
+        {% endif %}
+        {% if cls_dicts %}
+        <h1 class="ml-4 mt-3 mb-3">{{ _('classification model training history') }}</h1>
+        {% for cl_dicts in cls_dicts %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2">{{ _('date: %(date)s',=cl_dicts['date']) }}</a>
+                    <a class="mr-2">{{ _('data per class: %(data_per_class)s',data_per_class=cl_dicts['data_per_class']) }}</a>
+                    <a class="mr-2">{{ _('accuracy: %(accuracy)s',accuracy=cl_dicts['accuracy']) }}</a>
+                </div>
+                {% for cl_dict in cl_dicts['annexes'] %}
+                <div>
+                    <p class="article-content">{{ _('fatwa class: %(fatwa_class)s',fatwa_class=cl_dict['fatwa_class']) }}</p>
+                    <p class="article-content">{{ _('precision: %(precision)s',precision=cl_dict['precision']) }}</p>
+                    <p class="article-content">{{ _('recall: %(recall)s',=cl_dict['recall']) }}</p>
+                    <p class="article-content">{{ _('f1 score: %(f1_score')s',f1_score=cl_dict['f1-score']) }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+        {% endfor %}
+        {% else %}
+        <div class="container"><h1>{{ _('The classification model has not been trained yet.') }}</h1></div>
+        {% endif %}
+        {% for page_num in fatwas.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if fatwas.page == page_num %}
+        <a class="btn btn-info mb-4" href="{{ url_for('model.summary', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('model.summary', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

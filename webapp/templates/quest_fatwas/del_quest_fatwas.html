@@ -1,0 +1,57 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if fatwas %}
+            {% if route=='del_vol_fatwas' %}
+                <h1 class="ml-4 mt-3 mb-3">{{ _('Users deleted voluntary fatwas, total : %(total)s',total=total) }}</h1>
+            {% elif route=='user_del_vol_fatwas' %}
+                <h1 class="ml-4 mt-3 mb-3">{{ _('User deleted voluntary fatwas, total : %(total)s',total=total) }}</h1>
+            {% endif %}
+            {% for fatwa in fatwas.items %}
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="ml-2">{{ _('deleted by:') }}</a>
+                        <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.mufti_id] }}">
+                            {{ usernames[fatwa.deleter_id]) }}
+                        </a>
+                        <a class="ml-2">{{ _('asked by user:') }}</a>
+                        <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.user_id] }}">
+                            {{ usernames[fatwa.user_id]) }}
+                        </a>
+                    </div>
+                    <h2>
+                        <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                    </h2>
+                </div>
+            {% endfor %}
+            {% for page_num in fatwas.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if fatwas.page == page_num %}
+                        {% if route=='del_quest_fatwas' %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('quest_fatwas.del_quest_fatwas', page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='user_del_quest_fatwas' %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('quest_fatwas.user_del_quest_fatwas', username=name, page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        {% if route=='del_quest_fatwas' %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('quest_fatwas.del_quest_fatwas', page=page_num) }}">{{ page_num }}</a>
+                        {% elif route=='user_del_quest_fatwas' %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('quest_fatwas.user_del_quest_fatwas', username=name, page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% if route=='del_quest_fatwas' %}
+                <div class="container"><h1>{{ _('No questions were deleted yet') }}</h1></div>
+            {% elif route=='user_del_quest_fatwas' %}
+                 <div class="container"><h1>{{ _("This user doesn't have any deleted questions") }}</h1></div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

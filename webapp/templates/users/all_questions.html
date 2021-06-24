@@ -1,0 +1,121 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if max_pagination %}
+        <h1 class="ml-4 mt-3 mb-3">{{ _('Your %(fatwa_class)s questions, active : %(active_questions)s, answered :%(answered_questions)s',fatwa_class=translated_fc,active_questions=active_questions,answered_questions=answered_questions) }}</h1>
+            {% if questions %}
+                {% for question in questions %}
+                    {% for quest in question.items %}
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2">{{ users.get(quest.user_id)[0] }}</a>
+                                    <a class="ml-2" href="{{ url_for('users.user_profile',username=users.get(quest.user_id)[1]) }}">
+                                        {{ users.get(quest.user_id)[1] }}
+                                    </a>
+                                    <a class="ml-2" href="{{ url_for('users.question',fatwa_class=fatwa_class, id=quest.id) }}">{{ _('Question') }}</a>
+                                </div>
+                                {% if session['account_type']=='User' and current_user.id == quest.user_id %}
+                                <div>
+                                    {% if current_user.ver_em %}
+                                         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.edit_question',fatwa_class=fatwa_class,id=quest.id) }}">{{ _('Update') }}</a>
+                                        <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">{{ _('Delete') }}</button>
+                                    {% else %}
+                                        <a class="text-warning mr-2">{{ _('You need to verify your new email in order to update or delete your questions!') }}</a>
+                                    {% endif %}
+                                   </div>
+                                {% endif %}
+                                <h2>
+                                    <a class="article-title" dir="rtl">{{ quest.question }}</a>
+                                </h2>
+                            </div>
+                        </article>
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">{{ _('Delete question ?') }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                        <form action="{{ url_for('users.delete_question',fatwa_class=fatwa_class,id=question.id) }}" method="post">
+                                            <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for page_num in max_pagination.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if max_pagination.page == page_num %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('users.all_questions', fatwa_class=fatwa_class, page=page_num) }}">{{ page_num }}</a>
+                        {% else %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.all_questions', fatwa_class=fatwa_class, page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% if answered_questions > 0 %}
+                <div class="container">
+                    <h1>{{ _('All your questions regarding this topic has been answered') }}</h1>
+                    <p>_('Check your email inbox to get the link to the fatwa')</p>
+                </div>
+                {% else %}
+                <div class="container"><h1>{{ _('You did not ask any questions in this topic yet') }}</h1></div>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if questions %}
+            <h1 class="ml-4 mt-3 mb-3">{{ _('%(fatwa_class)s users questions, active : %(active_questions)s, answered : %(answered_questions)s',fatwa_class=translated_fc,active_questions=active_questions,answered_questions=answered_questions) }}</h1>
+                {% for quest in questions.items %}
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                <a class="mr-2">{{ users.get(quest.user_id)[0] }}</a>
+                                <a class="ml-2" href="{{ url_for('users.user_profile',username=users.get(quest.user_id)[1]) }}">
+                                    {{ users.get(quest.user_id)[1] }}
+                                </a>
+                                <a class="ml-2" href="{{ url_for('users.question',fatwa_class=fatwa_class, id=quest.id) }}">{{ _('Question') }}</a>
+                            </div>
+                            {% if session['account_type']=='Mufti' %}
+                                <div>
+                                    {% if current_user.ver_em %}
+                                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.answer_question',fatwa_class=fatwa_class,id=quest.id) }}">{{ _('Answer') }}</a>
+                                    {% else %}
+                                    <a class="text-warning mr-2">{{ _('You need to verify your new email in order to answer users questions!') }}</a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            <h2>
+                                <a class="article-title" dir="rtl">{{ quest.question }}</a>
+                            </h2>
+                        </div>
+                    </article>
+                {% endfor %}
+                {% for page_num in questions.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if max_pagination.page == page_num %}
+                            <a class="btn btn-info mb-4" href="{{ url_for('users.all_questions', fatwa_class=fatwa_class, page=page_num) }}">{{ page_num }}</a>
+                        {% else %}
+                            <a class="btn btn-outline-info mb-4" href="{{ url_for('users.all_questions', fatwa_class=fatwa_class, page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+            <div class="container"><h1>{{ _('No questions were asked in this topic') }}</h1></div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,891 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-07-09 03:37+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: webapp/administration/forms.py:13 webapp/administration/forms.py:24
+msgid "Browse files"
+msgstr ""
+
+#: webapp/administration/forms.py:14
+msgid "Upload corpus"
+msgstr ""
+
+#: webapp/administration/forms.py:20
+msgid "Only csv files are allowed !"
+msgstr ""
+
+#: webapp/administration/forms.py:25
+msgid "Upload models"
+msgstr ""
+
+#: webapp/administration/forms.py:31
+msgid "Only zip files are allowed !"
+msgstr ""
+
+#: webapp/administration/forms.py:35
+msgid "Select fatwa table to export"
+msgstr ""
+
+#: webapp/administration/forms.py:36 webapp/administration/forms.py:43
+#: webapp/fatwas/forms.py:9 webapp/main/utils.py:7 webapp/qasystem/forms.py:14
+#: webapp/templates/main/layout.html:40 webapp/templates/main/layout.html:54
+#: webapp/users/forms.py:73
+msgid "Hadj"
+msgstr ""
+
+#: webapp/administration/forms.py:36 webapp/administration/forms.py:43
+#: webapp/fatwas/forms.py:9 webapp/main/utils.py:9 webapp/qasystem/forms.py:14
+#: webapp/templates/main/layout.html:42 webapp/templates/main/layout.html:56
+#: webapp/users/forms.py:73
+msgid "Salat"
+msgstr ""
+
+#: webapp/administration/forms.py:36 webapp/administration/forms.py:43
+#: webapp/fatwas/forms.py:9 webapp/main/utils.py:11 webapp/qasystem/forms.py:15
+#: webapp/templates/main/layout.html:44 webapp/templates/main/layout.html:58
+#: webapp/users/forms.py:73
+msgid "Sawm"
+msgstr ""
+
+#: webapp/administration/forms.py:37 webapp/administration/forms.py:44
+#: webapp/fatwas/forms.py:9 webapp/main/utils.py:13 webapp/qasystem/forms.py:15
+#: webapp/templates/main/layout.html:46 webapp/templates/main/layout.html:60
+#: webapp/users/forms.py:74
+msgid "Zakat"
+msgstr ""
+
+#: webapp/administration/forms.py:42
+msgid "Select fatwa class to train sim models"
+msgstr ""
+
+#: webapp/administration/forms.py:45
+msgid "Download models"
+msgstr ""
+
+#: webapp/administration/forms.py:46
+msgid "Retrain similarity models"
+msgstr ""
+
+#: webapp/administration/forms.py:47
+msgid "Retrain classification model"
+msgstr ""
+
+#: webapp/administration/forms.py:51 webapp/users/forms.py:12
+#: webapp/users/forms.py:80
+msgid "Select account type"
+msgstr ""
+
+#: webapp/administration/forms.py:52 webapp/main/utils.py:16
+#: webapp/users/forms.py:13 webapp/users/forms.py:81
+msgid "Admin"
+msgstr ""
+
+#: webapp/administration/forms.py:52 webapp/main/utils.py:18
+#: webapp/users/forms.py:13 webapp/users/forms.py:81
+msgid "Mufti"
+msgstr ""
+
+#: webapp/administration/forms.py:53 webapp/users/forms.py:21
+#: webapp/users/forms.py:42
+msgid "First name"
+msgstr ""
+
+#: webapp/administration/forms.py:54 webapp/users/forms.py:22
+#: webapp/users/forms.py:43
+msgid "Last name"
+msgstr ""
+
+#: webapp/administration/forms.py:55 webapp/users/forms.py:14
+#: webapp/users/forms.py:23 webapp/users/forms.py:44
+msgid "Username"
+msgstr ""
+
+#: webapp/administration/forms.py:56 webapp/users/forms.py:15
+#: webapp/users/forms.py:24 webapp/users/forms.py:98
+msgid "Password"
+msgstr ""
+
+#: webapp/administration/forms.py:57 webapp/users/forms.py:25
+#: webapp/users/forms.py:99
+msgid "Confirm password"
+msgstr ""
+
+#: webapp/administration/forms.py:58 webapp/users/forms.py:26
+#: webapp/users/forms.py:45 webapp/users/forms.py:82
+msgid "email"
+msgstr ""
+
+#: webapp/administration/forms.py:60 webapp/administration/routes.py:52
+#: webapp/templates/main/layout.html:83 webapp/users/forms.py:28
+#: webapp/users/routes.py:156
+msgid "Register"
+msgstr ""
+
+#: webapp/administration/forms.py:68 webapp/users/forms.py:33
+#: webapp/users/forms.py:57
+msgid "Username taken, please choose another one"
+msgstr ""
+
+#: webapp/administration/forms.py:76 webapp/users/forms.py:38
+#: webapp/users/forms.py:68
+msgid "Email already associated with a user, please choose another one"
+msgstr ""
+
+#: webapp/administration/routes.py:47
+#, python-format
+msgid "%(account_type)s %(username)s created successfully"
+msgstr ""
+
+#: webapp/administration/routes.py:50
+msgid "An email has been sent with instructions to verify the account"
+msgstr ""
+
+#: webapp/administration/utils.py:59
+msgid "Corpus should be exported"
+msgstr ""
+
+#: webapp/administration/utils.py:65
+msgid "Corpus uploaded successfully!"
+msgstr ""
+
+#: webapp/administration/utils.py:70
+msgid "Models uploaded successfully!"
+msgstr ""
+
+#: webapp/administration/utils.py:79
+msgid "Classification model trained successfully"
+msgstr ""
+
+#: webapp/administration/utils.py:84
+msgid "Similarity models trained successfully"
+msgstr ""
+
+#: webapp/administration/utils.py:96
+msgid "Classification report"
+msgstr ""
+
+#: webapp/administration/utils.py:97 webapp/administration/utils.py:115
+#: webapp/users/utils.py:323
+#, python-format
+msgid "Hello admin %(username)s, we hope you are doing well,"
+msgstr ""
+
+#: webapp/administration/utils.py:98
+msgid "The classification model was successfully trained."
+msgstr ""
+
+#: webapp/administration/utils.py:99 webapp/users/utils.py:329
+msgid ""
+"models folder and classification_report are attached to this email for "
+"maintenance reasons."
+msgstr ""
+
+#: webapp/administration/utils.py:114
+msgid "Similarity report"
+msgstr ""
+
+#: webapp/administration/utils.py:117
+#, python-format
+msgid ""
+"The similarity models of %(topic)s were successfully trained, they are "
+"trained now with %(data_num)s fatwas."
+msgstr ""
+
+#: webapp/administration/utils.py:118
+msgid "models folder is attached to this email for maintenance reasons."
+msgstr ""
+
+#: webapp/administration/utils.py:143
+msgid ""
+"csv header should at least contain: [mufti_id, topic, question, "
+"answer,...] tuples in this order!"
+msgstr ""
+
+#: webapp/administration/utils.py:145
+msgid "Empty csv file!"
+msgstr ""
+
+#: webapp/fatwas/forms.py:8 webapp/users/forms.py:72
+msgid "Select fatwa class"
+msgstr ""
+
+#: webapp/fatwas/forms.py:10 webapp/templates/users/all_questions.html:18
+#: webapp/templates/users/all_questions.html:87
+#: webapp/templates/users/profile.html:51 webapp/users/forms.py:75
+msgid "Question"
+msgstr ""
+
+#: webapp/fatwas/forms.py:11 webapp/templates/users/all_questions.html:92
+#: webapp/templates/users/question.html:23
+msgid "Answer"
+msgstr ""
+
+#: webapp/fatwas/forms.py:12
+msgid "Submit"
+msgstr ""
+
+#: webapp/fatwas/routes.py:44
+msgid "You need to verify your email in order to add new fatwas!"
+msgstr ""
+
+#: webapp/fatwas/routes.py:59
+msgid "Fatwa added successfully"
+msgstr ""
+
+#: webapp/fatwas/routes.py:61
+msgid "Please consider checking similar fatwas before adding a new one"
+msgstr ""
+
+#: webapp/fatwas/routes.py:62 webapp/users/routes.py:252
+msgid "new fatwa"
+msgstr ""
+
+#: webapp/fatwas/routes.py:62 webapp/users/routes.py:252
+msgid "New fatwa"
+msgstr ""
+
+#: webapp/fatwas/routes.py:76 webapp/fatwas/routes.py:167
+#: webapp/main/routes.py:81 webapp/qasystem/routes.py:107
+#: webapp/users/routes.py:58 webapp/users/routes.py:76
+#: webapp/users/routes.py:203 webapp/users/routes.py:218
+#: webapp/users/routes.py:346
+#, python-format
+msgid "First name : %(fname)s , Last name : %(lname)s"
+msgstr ""
+
+#: webapp/fatwas/routes.py:77
+msgid "fatwa"
+msgstr ""
+
+#: webapp/fatwas/routes.py:99
+msgid "You need to verify your email in order to delete your fatwa!"
+msgstr ""
+
+#: webapp/fatwas/routes.py:104
+msgid "Fatwa has been deleted!"
+msgstr ""
+
+#: webapp/fatwas/routes.py:127
+msgid "You need to verify your email in order to edit your fatwa!"
+msgstr ""
+
+#: webapp/fatwas/routes.py:149
+msgid "Fatwa has been updated!"
+msgstr ""
+
+#: webapp/fatwas/routes.py:155 webapp/users/routes.py:300
+msgid "edit fatwa"
+msgstr ""
+
+#: webapp/fatwas/routes.py:155 webapp/users/routes.py:300
+msgid "Edit fatwa"
+msgstr ""
+
+#: webapp/fatwas/routes.py:170
+#, python-format
+msgid "Fatwas-%(fatwa_class)s"
+msgstr ""
+
+#: webapp/fatwas/utils.py:75
+msgid "Hadj fatwas"
+msgstr ""
+
+#: webapp/fatwas/utils.py:75
+msgid "Salat fatwas"
+msgstr ""
+
+#: webapp/fatwas/utils.py:75
+msgid "Sawm fatwas"
+msgstr ""
+
+#: webapp/fatwas/utils.py:76
+msgid "Zakat fatwas"
+msgstr ""
+
+#: webapp/main/routes.py:41 webapp/templates/main/layout.html:65
+msgid "About"
+msgstr ""
+
+#: webapp/main/routes.py:66
+msgid "You need to verify your email in order to use your account"
+msgstr ""
+
+#: webapp/main/routes.py:67
+msgid "Resend confirmation link"
+msgstr ""
+
+#: webapp/main/utils.py:20 webapp/users/forms.py:13 webapp/users/forms.py:81
+msgid "User"
+msgstr ""
+
+#: webapp/qasystem/forms.py:8 webapp/templates/fatwas/all_fatwas.html:16
+#: webapp/templates/main/home.html:18 webapp/templates/qasystem/show.html:17
+#: webapp/templates/users/profile.html:20
+msgid "Fatwa"
+msgstr ""
+
+#: webapp/qasystem/forms.py:9
+msgid "Pass query"
+msgstr ""
+
+#: webapp/qasystem/forms.py:13
+msgid "Wrong classification? enter the right class below."
+msgstr ""
+
+#: webapp/qasystem/forms.py:14
+msgid "Correct prediction"
+msgstr ""
+
+#: webapp/qasystem/forms.py:16
+msgid "Pass correct class"
+msgstr ""
+
+#: webapp/qasystem/routes.py:58
+#, python-format
+msgid "Question is classified as %(fatwa_class)s"
+msgstr ""
+
+#: webapp/qasystem/routes.py:68 webapp/qasystem/routes.py:76
+msgid "You should enter a query first !"
+msgstr ""
+
+#: webapp/qasystem/routes.py:114
+msgid "NO MATCHING QUESTIONS WERE FOUND, ASK ANOTHER QUESTION"
+msgstr ""
+
+#: webapp/templates/admin/index.html:20
+msgid "Upload Corpus"
+msgstr ""
+
+#: webapp/templates/admin/index.html:26
+msgid "Upload Models"
+msgstr ""
+
+#: webapp/templates/admin/index.html:32
+msgid "Download Corpus"
+msgstr ""
+
+#: webapp/templates/admin/index.html:38
+msgid "Train and Download models"
+msgstr ""
+
+#: webapp/templates/admin/index.html:46
+msgid "WARNING: YOU SHOULD BACKUP MODELS BEFORE RETRAINING THEM"
+msgstr ""
+
+#: webapp/templates/admin/register.html:9
+#: webapp/templates/users/register.html:9
+msgid "Fill the form"
+msgstr ""
+
+#: webapp/templates/errors/404.html:6
+msgid "Oops. Page Not Found (404)"
+msgstr ""
+
+#: webapp/templates/errors/404.html:7
+msgid "That page does not exist. Please try a different url!"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:7
+#, python-format
+msgid "%(fatwa_class)s fatwas, total :%(total)s"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:21
+#: webapp/templates/fatwas/fatwa.html:14
+#: webapp/templates/users/all_questions.html:23
+#: webapp/templates/users/question.html:14 webapp/users/forms.py:46
+msgid "Update"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:22
+#: webapp/templates/fatwas/fatwa.html:15
+#: webapp/templates/users/all_questions.html:24
+#: webapp/templates/users/question.html:15
+msgid "Delete"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:24
+msgid ""
+"You need to verify your new email in order to update or delete your "
+"fatwas!"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:38
+#: webapp/templates/fatwas/fatwa.html:34
+msgid "Delete fatwa ?"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:39
+#: webapp/templates/fatwas/all_fatwas.html:44
+#: webapp/templates/fatwas/fatwa.html:35 webapp/templates/fatwas/fatwa.html:40
+#: webapp/templates/users/all_questions.html:45
+#: webapp/templates/users/question.html:44
+msgid "Close"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:46
+#: webapp/templates/fatwas/fatwa.html:42
+#: webapp/templates/users/all_questions.html:47
+#: webapp/templates/users/question.html:46
+msgid "Confirm"
+msgstr ""
+
+#: webapp/templates/fatwas/all_fatwas.html:65
+msgid "No fatwas were added to this topic, yet."
+msgstr ""
+
+#: webapp/templates/fatwas/fatwa.html:17
+msgid "You need to verify your new email in order to update or delete this fatwa!"
+msgstr ""
+
+#: webapp/templates/main/about.html:7
+msgid "Fatwas Summary"
+msgstr ""
+
+#: webapp/templates/main/about.html:19
+msgid "Answered questions Summary"
+msgstr ""
+
+#: webapp/templates/main/about.html:31
+msgid "Active questions Summary"
+msgstr ""
+
+#: webapp/templates/main/about.html:44
+msgid "About Page"
+msgstr ""
+
+#: webapp/templates/main/home.html:7
+#, python-format
+msgid "All fatwas, total : %(total)s"
+msgstr ""
+
+#: webapp/templates/main/layout.html:29
+msgid "Home"
+msgstr ""
+
+#: webapp/templates/main/layout.html:38
+msgid "Fatwas"
+msgstr ""
+
+#: webapp/templates/main/layout.html:52
+msgid "Questions"
+msgstr ""
+
+#: webapp/templates/main/layout.html:64
+msgid "OFQAS"
+msgstr ""
+
+#: webapp/templates/main/layout.html:71
+msgid "Administration"
+msgstr ""
+
+#: webapp/templates/main/layout.html:72
+msgid "Registration"
+msgstr ""
+
+#: webapp/templates/main/layout.html:75
+msgid "New Fatwa"
+msgstr ""
+
+#: webapp/templates/main/layout.html:78
+msgid "New Question"
+msgstr ""
+
+#: webapp/templates/main/layout.html:80 webapp/users/routes.py:103
+msgid "Account"
+msgstr ""
+
+#: webapp/templates/main/layout.html:81
+msgid "Logout"
+msgstr ""
+
+#: webapp/templates/main/layout.html:84 webapp/users/forms.py:17
+#: webapp/users/routes.py:133
+msgid "Login"
+msgstr ""
+
+#: webapp/templates/main/layout.html:88
+msgid "Languages"
+msgstr ""
+
+#: webapp/templates/main/layout.html:90
+msgid "Arabic"
+msgstr ""
+
+#: webapp/templates/main/layout.html:92
+msgid "English"
+msgstr ""
+
+#: webapp/templates/main/layout.html:94
+msgid "French"
+msgstr ""
+
+#: webapp/templates/qasystem/result.html:9
+msgid "Online Fatawa Question Answering System"
+msgstr ""
+
+#: webapp/templates/qasystem/show.html:6
+#, python-format
+msgid "Question: %(fatwa)s"
+msgstr ""
+
+#: webapp/templates/users/account.html:16
+msgid "Update account"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:7
+#, python-format
+msgid ""
+"Your %(fatwa_class)s questions, active : %(active_questions)s, answered "
+":%(answered_questions)s"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:26
+msgid ""
+"You need to verify your new email in order to update or delete your "
+"questions!"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:39
+#: webapp/templates/users/question.html:38
+msgid "Delete question ?"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:69
+msgid "All your questions regarding this topic has been answered"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:73
+msgid "You did not ask any questions in this topic yet"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:78
+#, python-format
+msgid ""
+"%(fatwa_class)s users questions, active : %(active_questions)s, answered "
+": %(answered_questions)s"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:94
+msgid "You need to verify your new email in order to answer users questions!"
+msgstr ""
+
+#: webapp/templates/users/all_questions.html:116
+msgid "No questions were asked in this topic"
+msgstr ""
+
+#: webapp/templates/users/login.html:9
+msgid "Login credentials"
+msgstr ""
+
+#: webapp/templates/users/login.html:41
+msgid "Remember Me"
+msgstr ""
+
+#: webapp/templates/users/login.html:47
+msgid "Forgot Password?"
+msgstr ""
+
+#: webapp/templates/users/login.html:54
+msgid "Need An Account?"
+msgstr ""
+
+#: webapp/templates/users/login.html:54
+msgid "Sign Up Now (user only)"
+msgstr ""
+
+#: webapp/templates/users/profile.html:6
+msgid "Profile Page"
+msgstr ""
+
+#: webapp/templates/users/profile.html:12
+#, python-format
+msgid "Mufti fatwas, total : %(total)s"
+msgstr ""
+
+#: webapp/templates/users/profile.html:43
+#, python-format
+msgid ""
+"User questions, active : %(active_questions)s, answered : "
+"%(answered_questions)s"
+msgstr ""
+
+#: webapp/templates/users/profile.html:74
+#, python-format
+msgid "User questions, total : %(total_questions)s"
+msgstr ""
+
+#: webapp/templates/users/profile.html:76
+msgid "This mufti has no fatwas at the moment"
+msgstr ""
+
+#: webapp/templates/users/question.html:17
+msgid ""
+"You need to verify your new email in order to update or delete this "
+"question!"
+msgstr ""
+
+#: webapp/templates/users/register.html:98
+msgid "Already Have An Account?"
+msgstr ""
+
+#: webapp/templates/users/register.html:98
+msgid "Sign In"
+msgstr ""
+
+#: webapp/templates/users/reset_request.html:9
+#: webapp/templates/users/reset_token.html:9 webapp/users/forms.py:101
+#: webapp/users/routes.py:417 webapp/users/routes.py:442
+msgid "Reset Password"
+msgstr ""
+
+#: webapp/users/forms.py:76
+msgid "Ask question"
+msgstr ""
+
+#: webapp/users/forms.py:84
+msgid "Request Password Reset"
+msgstr ""
+
+#: webapp/users/forms.py:94
+msgid "There is no account with that email. You must register first."
+msgstr ""
+
+#: webapp/users/routes.py:59 webapp/users/routes.py:63
+#: webapp/users/routes.py:77
+msgid "user profile"
+msgstr ""
+
+#: webapp/users/routes.py:94
+msgid "An email has been sent with instructions to verify your new email address"
+msgstr ""
+
+#: webapp/users/routes.py:96
+msgid "Your account has been updated!"
+msgstr ""
+
+#: webapp/users/routes.py:109
+msgid "You are already logged in!"
+msgstr ""
+
+#: webapp/users/routes.py:119
+#, python-format
+msgid "logged in as %(account_type)s %(username)s"
+msgstr ""
+
+#: webapp/users/routes.py:128
+msgid "user does not exist !"
+msgstr ""
+
+#: webapp/users/routes.py:132
+msgid "Wrong credential !"
+msgstr ""
+
+#: webapp/users/routes.py:142
+msgid "You're not logged in!"
+msgstr ""
+
+#: webapp/users/routes.py:152
+#, python-format
+msgid "%(username)s created successfully"
+msgstr ""
+
+#: webapp/users/routes.py:154 webapp/users/routes.py:167
+msgid "An email has been sent with instructions to verify your account"
+msgstr ""
+
+#: webapp/users/routes.py:163
+msgid "Your account is already verified!"
+msgstr ""
+
+#: webapp/users/routes.py:179 webapp/users/routes.py:433
+msgid "That is an invalid or expired token"
+msgstr ""
+
+#: webapp/users/routes.py:184
+msgid ""
+"Your account is validated successfully, you can now use your account "
+"privileges"
+msgstr ""
+
+#: webapp/users/routes.py:223
+#, python-format
+msgid "Questions- %(fatwa_class)s"
+msgstr ""
+
+#: webapp/users/routes.py:234
+msgid "You need to verify your email in order to add new questions!"
+msgstr ""
+
+#: webapp/users/routes.py:249
+msgid "Question added successfully"
+msgstr ""
+
+#: webapp/users/routes.py:251
+msgid "Please consider checking similar fatwas before asking a new question"
+msgstr ""
+
+#: webapp/users/routes.py:274
+msgid "You need to verify your email in order to edit your question!"
+msgstr ""
+
+#: webapp/users/routes.py:295
+msgid "Your question has been updated!"
+msgstr ""
+
+#: webapp/users/routes.py:322
+msgid "You need to verify your email in order to delete your question!"
+msgstr ""
+
+#: webapp/users/routes.py:327
+msgid "Your Question has been deleted!"
+msgstr ""
+
+#: webapp/users/routes.py:347
+msgid "question"
+msgstr ""
+
+#: webapp/users/routes.py:370
+msgid "You need to verify your email in order to answer this question!"
+msgstr ""
+
+#: webapp/users/routes.py:394
+msgid "Fatwa has been added!"
+msgstr ""
+
+#: webapp/users/routes.py:399
+msgid "answer question"
+msgstr ""
+
+#: webapp/users/routes.py:399
+msgid "Answer question"
+msgstr ""
+
+#: webapp/users/routes.py:415
+msgid "An email has been sent with instructions to reset your password"
+msgstr ""
+
+#: webapp/users/routes.py:440
+msgid "Your password has been updated! You are now able to log in"
+msgstr ""
+
+#: webapp/users/utils.py:107 webapp/users/utils.py:137
+msgid "Hadj questions"
+msgstr ""
+
+#: webapp/users/utils.py:107 webapp/users/utils.py:137
+msgid "Salat questions"
+msgstr ""
+
+#: webapp/users/utils.py:108 webapp/users/utils.py:138
+msgid "Sawm questions"
+msgstr ""
+
+#: webapp/users/utils.py:108 webapp/users/utils.py:138
+msgid "Zakat questions"
+msgstr ""
+
+#: webapp/users/utils.py:209 webapp/users/utils.py:229
+msgid "Email validation"
+msgstr ""
+
+#: webapp/users/utils.py:210 webapp/users/utils.py:230
+msgid "Your email was used in the registration of this account:"
+msgstr ""
+
+#: webapp/users/utils.py:211 webapp/users/utils.py:231
+msgid ""
+"Enter the link below to validate your email address and start using your "
+"account:"
+msgstr ""
+
+#: webapp/users/utils.py:212 webapp/users/utils.py:232
+msgid "If you did not register, then simply ignore this email"
+msgstr ""
+
+#: webapp/users/utils.py:251 webapp/users/utils.py:261
+msgid "Password Reset Request"
+msgstr ""
+
+#: webapp/users/utils.py:252 webapp/users/utils.py:262
+msgid "To reset your password, visit the following link:"
+msgstr ""
+
+#: webapp/users/utils.py:253 webapp/users/utils.py:263
+msgid ""
+"If you did not make this request, then simply ignore this email and no "
+"changes will be made"
+msgstr ""
+
+#: webapp/users/utils.py:275
+msgid "Answered question"
+msgstr ""
+
+#: webapp/users/utils.py:276
+msgid "The question you asked earlier:"
+msgstr ""
+
+#: webapp/users/utils.py:276
+msgid "Has been answered by a mufti."
+msgstr ""
+
+#: webapp/users/utils.py:276
+msgid "You can view the fatwa in the following link:"
+msgstr ""
+
+#: webapp/users/utils.py:306
+msgid "Call for work"
+msgstr ""
+
+#: webapp/users/utils.py:307
+#, python-format
+msgid "Hello %(username)s, we hope you are doing well,"
+msgstr ""
+
+#: webapp/users/utils.py:309
+#, python-format
+msgid ""
+"Users have submitted %(num)s new questions regarding the topic of "
+"%(topic)s"
+msgstr ""
+
+#: webapp/users/utils.py:310
+msgid "Please login and enter this link to answer them, thank you."
+msgstr ""
+
+#: webapp/users/utils.py:322
+msgid "Models update"
+msgstr ""
+
+#: webapp/users/utils.py:324
+#, python-format
+msgid "Muftis have submitted new fatwas regarding the topic of %(topic)s."
+msgstr ""
+
+#: webapp/users/utils.py:325
+#, python-format
+msgid ""
+"Therefore the similarity models were automatically updated, they are "
+"trained now with %(data_num)s fatwas"
+msgstr ""
+
+#: webapp/users/utils.py:328
+msgid "the classification model was also updated."
+msgstr ""
+

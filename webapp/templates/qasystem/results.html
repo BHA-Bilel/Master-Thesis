@@ -1,0 +1,167 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        <h4 class="form-control form-control-lg" dir="auto">{{ _('Question: %(fatwa)s',fatwa=fatwa) }} </h4>
+        {% for fatwa, result in fatwas, results: %}
+        <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2">{{ result.model }}</a>
+                        <small class="text-muted">{{ result.similarity }}</small>
+                        {% if fatwa.__tablename__ == 'fatwas' %}
+                            <a class="ml-2">{{ _('added by mufti:') }}</a>
+                            <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.mufti_id] }}">
+                                {{ usernames[fatwa.mufti_id]) }}
+                            </a>
+                            <a class="ml-2">{{ _('on: %(date)s',date=fatwa.added_on) }}</a>
+                            <a class="ml-2" href="{{ url_for('fatwas.fatwa', id=fatwa.id) }}">{{ _('Fatwa') }}</a>
+                        {% elif fatwa.__tablename__ == 'vol_fatwas' %}
+                            <a class="ml-2">{{ _('volunteered by user:') }}</a>
+                            <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.user_id] }}">
+                                {{ usernames[fatwa.user_id]) }}
+                            </a>
+                            <a class="ml-2">{{ _('on: %(date)s',date=fatwa.added_on) }}</a>
+                            <a class="ml-2" href="{{ url_for('vol_fatwas.vol_fatwa', id=fatwa.id) }}">{{ _('Fatwa') }}</a>
+                            <a class="ml-2">{{ _('original fatwa:') }}</a>
+                            <a class="ml-2" href="{{ fatwa.link }}">{{ _('original fatwa') }}</a>
+                            <a class="ml-2" href="{{ url_for('websites.website',id=fatwa.website_id) }}">
+                                            {{ website }}
+                            </a>
+                        {% elif fatwa.__tablename__ == 'quest_fatwas' %}
+                            <a class="ml-2">{{ _('answered by mufti:') }}</a>
+                            <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.mufti_id] }}">
+                                {{ usernames[fatwa.mufti_id]) }}
+                            </a>
+                            <a class="ml-2">{{ _('on: %(date)s',date=fatwa.answred_on) }}</a>
+                            {% if not fatwa.anonym or session['role']=='Admin' %}
+                                <a class="ml-2">{{ _('asked by user:') }}</a>
+                                <a class="ml-2" href="{{ url_for('users.profile',username=usernames[fatwa.user_id] }}">
+                                    {{ usernames[fatwa.user_id]) }}
+                                </a>
+                                <a class="ml-2">{{ _('on: %(date)s',date=fatwa.added_on) }}</a>
+                            {% else %}
+                                <a class="ml-2">{{ _('asked by a user on: %(date)s',date=fatwa.added_on) }}</a>
+                            {% endif %}
+                            <a class="ml-2" href="{{ url_for('quest_fatwas.quest_fatwa', id=fatwa.id) }}">{{ _('Fatwa') }}</a>
+                        {% endif %}
+                    </div>
+                    {% if current_user.is_authenticated and current_user.ver_em %}
+                        {% if fatwa.__tablename__ == 'fatwas' %}
+                            {% set cond=session['role']=='Mufti' and current_user.id == fatwa.mufti_id %}
+                            {% if cond %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('fatwas.edit_fatwa',id=fatwa.id) }}">{{ _('Update') }}</a>
+                            {% nedif %}
+                            {% if cond or session['role']=='Admin' %}
+                                <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal1">{{ _('Delete') }}</button>
+                                <div class="modal fade" id="deleteModal1" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel1">{{ _('Delete fatwa ?') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="{{ _('Close') }}">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                <form action="{{ url_for('fatwas.delete_fatwa',id=fatwa.id) }}" method="post">
+                                                    <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% elif fatwa.__tablename__ == 'vol_fatwas' %}
+                            {% set cond=session['role']=='User' and current_user.id == fatwa.user_id %}
+                            {% if cond %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('vol_fatwas.edit_vol_fatwa',id=question.id) }}">{{ _('Update') }}</a>
+                            {% endif %}
+                            {% if cond or session['role']=='Admin' or session['role']=='Mufti' %}
+                                <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal2">{{ _('Delete') }}</button>
+                                <div class="modal fade" id="deleteModal2" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel2" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-conetent">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel2">{{ _('Delete fatwa ?') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                <form action="{{ url_for('vol_fatwas.delete_vol_fatwa',id=vol_fatwa.id) }}" method="post">
+                                                    <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% elif fatwa.__tablename__ == 'quest_fatwas' %}
+                            {% if fatwa.mufti_id %}
+                                {% set cond=session['role']=='Mufti' and fatwa.mufti_id == current_user.id %}
+                                {% if cond %}
+                                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('quest_fatwas.edit_quest_fatwa',id=fatwa.id) }}">{{ _('Update') }}</a>
+                                {% endif %}
+                                {% if cond or session['role']=='Admin' %}
+                                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal3">{{ _('Delete') }}</button>
+                                    <div class="modal fade" id="deleteModal3" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel3" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-conetent">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel3">{{ _('Delete fatwa ?') }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                    <form action="{{ url_for('quest_fatwas.delete_quest_fatwa',id=fatwa.id) }}" method="post">
+                                                        <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% elif session['role']=='User' and fatwa.user_id == current_user.id %}
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('quest_fatwas.edit_quest_fatwa',id=fatwa.id) }}">{{ _('Update') }}</a>
+                                <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal4">{{ _('Delete') }}</button>
+                                <div class="modal fade" id="deleteModal4" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel4" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-conetent">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel4">{{ _('Delete fatwa ?') }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Close') }}</button>
+                                                <form action="{{ url_for('quest_fatwas.delete_quest_fatwa',id=fatwa.id) }}" method="post">
+                                                    <input class="btn btn-danger" type="submit" value="{{ _('Confirm') }}">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif session['role']=='Mufti' %}
+                             <div>
+                                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('quest_fatwas.answer_quest_fatwa',id=fatwa.id) }}">{{ _('Answer') }}</a>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                    <h2>
+                        <a class="article-title" dir="rtl">{{ fatwa.question }}</a>
+                    </h2>
+                    <p class="article-content" dir="rtl">{{ fatwa.answer }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

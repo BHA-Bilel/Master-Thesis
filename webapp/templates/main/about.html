@@ -1,0 +1,49 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        {% if fatwas_sum %}
+            <h4 class="form-control form-control-lg" dir="auto">{{ _('Fatwas Summary') }}</h4>
+            {% for sum in fatwas_sum.items() %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <h2>
+                            <a class="article-title" dir="rtl">{{ sum[0] }}</a>
+                        </h2>
+                        <p class="article-content" dir="rtl">{{ sum[1] }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+
+            <h4 class="form-control form-control-lg" dir="auto">{{ _('Answered questions Summary') }}</h4>
+            {% for sum in answered_question_sum.items() %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <h2>
+                            <a class="article-title" dir="rtl">{{ sum[0] }}</a>
+                        </h2>
+                        <p class="article-content" dir="rtl">{{ sum[1] }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+
+            <h4 class="form-control form-control-lg" dir="auto">{{ _('Active questions Summary') }}</h4>
+            {% for sum in active_question_sum.items() %}
+                <article class="media content-section">
+                    <div class="media-body">
+                        <h2>
+                            <a class="article-title" dir="rtl">{{ sum[0] }}</a>
+                        </h2>
+                        <p class="article-content" dir="rtl">{{ sum[1] }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        {% else %}
+                <div class="container">
+                    <h1>{{ _('About Page') }}</h1>
+                </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

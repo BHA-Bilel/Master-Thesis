@@ -1,0 +1,49 @@
+{% extends "admin/master.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block head_css %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+
+{% endblock head_css %}
+{% block body %}
+<main role="main" class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</main>
+<div class="container mb-5">
+    <div class="content-section">
+        <h2 dir="auto">{{ _('Upload Corpus') }}</h2>
+        <form class="mb-5" method="POST" action="" enctype="multipart/form-data">
+            {{ uploadCorpForm.hidden_tag() }}
+            {{ wtf.form_field(uploadCorpForm.file,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {{ uploadCorpForm.upload_corp(class="btn btn-primary") }}
+        </form>
+        <h2 dir="auto">{{ _('Upload Models') }}</h2>
+        <form class="mb-5" method="POST" action="" enctype="multipart/form-data">
+            {{ uploadModelsForm.hidden_tag() }}
+            {{ wtf.form_field(uploadModelsForm.file,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {{ uploadModelsForm.upload_models(class="btn btn-primary") }}
+        </form>
+        <h2 dir="auto">{{ _('Download Corpus') }}</h2>
+        <form class="mb-5" method="POST" action="">
+            {{ downCorpForm.hidden_tag() }}
+            {{ wtf.form_field(downCorpForm.fatwa_class,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {{ downCorpForm.export_corp(class="btn btn-primary mb-5") }}
+        </form>
+        <h2 dir="auto">{{ _('Train and Download models') }}</h2>
+        <form class="mb-3" method="POST" action="">
+            {{ trainForm.hidden_tag() }}
+            {{ wtf.form_field(trainForm.fatwa_class,class="custom-select mr-sm-2 form-control-lg",style="font-size: 20pt") }}
+            {{ trainForm.download(class="btn btn-primary mb-5") }}
+            {{ trainForm.train_cl(class="btn btn-primary mb-5") }}
+            {{ trainForm.train_sim(class="btn btn-primary") }}
+        </form>
+        <h5 class="text-danger">{{ _('WARNING: YOU SHOULD BACKUP MODELS BEFORE RETRAINING THEM') }}</h5>
+    </div>
+</div>
+{% endblock body %}

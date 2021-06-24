@@ -1,0 +1,56 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="content-section">
+    <div class="container mb-5">
+        <form class="mb-3" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4" style="font-size: 20pt">{{ _('General form') }}</legend>
+                <div class="form-group">
+                    {{ form.min_data_per_class.label(class="form-control-label") }}
+                    {% if form.min_data_per_class.errors %}
+                    {{ form.min_data_per_class(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.min_data_per_class.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.min_data_per_class(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.del_quest_ban.label(class="form-control-label") }}
+                    {% if form.del_quest_ban.errors %}
+                    {{ form.del_quest_ban(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.del_quest_ban.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.del_quest_ban(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.del_vol_ban.label(class="form-control-label") }}
+                    {% if form.del_vol_ban.errors %}
+                    {{ form.del_vol_ban(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.del_vol_ban.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.del_vol_ban(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+</div>
+{% endblock content %}

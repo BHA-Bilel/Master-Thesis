@@ -1,0 +1,10 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{{ super() }}
+<div class="container mb-5">
+    <div class="content-section">
+        <h1>{{ _('Forbiddem (403)') }}</h1>
+        <p>{{ _('You don't have permission to enter this url!') }}</p>
+    </div>
+</div>
+{% endblock content %}
